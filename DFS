@@ -1,0 +1,115 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    int n, e;
+
+    // Number of nodes
+    cout << "Enter number of nodes: ";
+    cin >> n;
+
+    // Node names store করবে
+    char node[20];
+
+    cout << "Enter node names: ";
+    for(int i = 0; i < n; i++)
+        cin >> node[i];
+
+
+    // Graph matrix, শুরুতে সব 0
+    int graph[20][20] = {};
+
+
+    // Number of edges
+    cout << "Enter number of edges: ";
+    cin >> e;
+
+
+    // Edge input
+    cout << "Enter " << e << " edges:\n";
+
+    for(int i = 0; i < e; i++)
+    {
+        char a, b;
+
+        cout << "Edge " << i + 1 << ": ";
+        cin >> a >> b;
+
+        // a এবং b এর index খুঁজে বের করা
+        int x = 0, y = 0;
+
+        while(node[x] != a)
+            x++;
+
+        while(node[y] != b)
+            y++;
+
+
+        // দুই node-এর মধ্যে connection
+        graph[x][y] = 1;
+        graph[y][x] = 1;
+    }
+
+
+    // Starting node
+    char start;
+
+    cout << "Enter starting node: ";
+    cin >> start;
+
+
+    // Starting node-এর index বের করা
+    int s = 0;
+
+    while(node[s] != start)
+        s++;
+
+
+    // Stack তৈরি
+    int st[20];
+    int top = -1;
+
+    // কোন node visited তা রাখবে
+    bool visited[20] = {};
+
+
+    // Starting node stack-এ push
+    st[++top] = s;
+
+
+    cout << "DFS: ";
+
+
+    // যতক্ষণ stack empty না হয়
+    while(top >= 0)
+    {
+        // Stack থেকে top node বের করি
+        int u = st[top--];
+
+
+        // আগে visited হলে skip
+        if(visited[u])
+            continue;
+
+
+        // Node visited
+        visited[u] = true;
+
+        // Node name print
+        cout << node[u] << " ";
+
+
+        // Connected node check
+        for(int i = n - 1; i >= 0; i--)
+        {
+            if(graph[u][i] && !visited[i])
+            {
+                // Stack-এ push
+                st[++top] = i;
+            }
+        }
+    }
+
+    return 0;
+}
