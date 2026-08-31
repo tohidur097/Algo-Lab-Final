@@ -1,0 +1,58 @@
+#include <iostream> //BFS
+using namespace std;
+
+int main() {
+    int n, e;
+    cout << "Enter number of nodes: ";
+    cin >> n;
+
+    char node[20];
+    cout << "Enter node names: ";
+    for (int i = 0; i < n; i++)
+        cin >> node[i];
+
+    int graph[20][20] = {};
+
+    cout << "Enter number of edges: ";
+    cin >> e;
+
+    cout << "Enter " << e << " edges:\n";
+    for (int i = 0; i < e; i++) {
+        char a, b;
+        cout << "Edge " << i + 1 << ": ";
+        cin >> a >> b;
+
+        int x = 0, y = 0;
+        while (node[x] != a) x++;
+        while (node[y] != b) y++;
+
+        graph[x][y] = graph[y][x] = 1;
+    }
+
+    char start;
+    cout << "Enter starting node: ";
+    cin >> start;
+
+    int s = 0;
+    while (node[s] != start) s++;
+
+    int q[20], front = 0, rear = 0;
+    bool visited[20] = {};
+
+    q[rear++] = s;
+    visited[s] = true;
+
+    cout << "BFS: ";
+
+    while (front < rear) {
+        int u = q[front++];
+
+        cout << node[u] << " ";
+
+        for (int i = 0; i < n; i++)
+            if (graph[u][i] && !visited[i]) {
+                visited[i] = true;
+                q[rear++] = i;
+            }
+    }
+}
