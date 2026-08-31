@@ -1,0 +1,70 @@
+// KRUSKAL ALGORITHM
+#include<iostream>
+using namespace std;
+int main(){
+    int n,e;
+    cout<<"Enter Number of Nodes: ";
+    cin>>n;
+
+    char node[20];
+
+    cout<<"Enter Nodes Name: ";
+    for(int i=0;i<n;i++){
+        cin>>node[i];
+    }
+    cout<<"Enter Number of Edges: ";
+    cin>>e;
+    char a[50],b[50];
+    int w[50];
+    cout<<"Enter Edges(Node1 Node2 weight):\n";
+    for(int i=0;i<e;i++){
+        cin>>a[i]>>b[i]>>w[i];
+    }
+    for(int i=0;i<e-1;i++){
+        for(int j=i+1;j<e;j++){
+            if(w[i]>w[j]){
+                swap(w[i],w[j]);
+                swap(a[i],a[j]);
+                swap(b[i],b[j]);
+
+            }
+        }
+    }
+    int parent[20];
+    for(int i=0;i<n;i++)
+        parent[i]=i;
+
+    int total=0;
+    int count=0;
+    cout<<"Mst:\n";
+
+    for(int i=0;i<e;i++){
+        int x=0,y=0;
+
+        while(node[x]!=a[i])
+            x++;
+
+        while(node[y]!=b[i])
+            y++;   
+
+        while(parent[x]!=x)
+            x=parent[x];
+
+        while(parent[y]!=y)
+            y=parent[y];
+
+        if(x!=y){
+            cout<<a[i]<<" - "<<b[i]<<" : "<<w[i]<<endl;
+            total +=w[i];
+            parent[y]=x;
+            count++;
+        }
+        if(count==n-1)
+            break;
+
+    }
+
+cout<<"Total Weight: "<< total;
+
+
+}
